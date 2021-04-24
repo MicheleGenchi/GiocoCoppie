@@ -32,8 +32,8 @@
 	<hr class='linea' align='center' size='1' color='blue' noshade />
 	<div class="container">
 	<h4>Classifica dei giocatori</h4>
-	<table class="table table-hover table-primary">
-	  <thead>
+	<table class="table table-hover">
+	  <thead class="table-primary">
 	    <tr>
 	      <th scope="col">Nome</th>
 	      <th scope="col">Punti</th>
