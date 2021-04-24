@@ -31,12 +31,13 @@
 
 	<hr class='linea' align='center' size='1' color='blue' noshade />
 	<div class="container">
+	<center>
 	<h4>Classifica dei giocatori</h4>
-	<table class="table table-hover">
+	<table style="width: 40%"class="table table-hover">
 	  <thead class="table-primary">
 	    <tr>
-	      <th scope="col">Nome</th>
-	      <th scope="col">Punti</th>
+	      <th style="width: 30%" scope="col">Nome</th>
+	      <th style="width: 10%" scope="col">Punti</th>
 	    </tr>
 	  </thead>
 	<tbody>
@@ -48,6 +49,7 @@
     </c:forEach>
     </tbody>
     </table>
+    </center>
 	</div>	
 
 

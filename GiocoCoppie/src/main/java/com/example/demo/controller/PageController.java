@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.model.Giocatore;
 import com.example.demo.model.Giocatori;
 import com.example.demo.model.Intestazione;
 
@@ -43,6 +44,10 @@ public class PageController {
 		myMap.put("mioNome", intestazione.getCognome()+" "+intestazione.getNome());
 		myMap.put("lingua", intestazione.getLingua());
 		myMap.put("messaggio", messaggio);
+		
+		//test
+//		giocatori.getLista().add(new Giocatore("test1",10));
+//		giocatori.getLista().add(new Giocatore("test2",10));
 		myMap.put("giocatori", giocatori);
 		return new ModelAndView("vittoria", myMap);
 	}
