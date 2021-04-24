@@ -1,0 +1,51 @@
+body {
+	margin :20px;	
+}
+
+div .row {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+div .col-m {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.mul-select {
+	width: 100%;
+}
+
+.title {
+	font-weight : bold;
+	font-style : normal;
+	font-size: x-large;
+	font-family: sans-serif;
+}
+
+.etichetta {
+	font-weight : bold;
+	font-style : italic;
+	font-size: medium;
+	margin-right: 10px;
+}
+
+.id {
+	font-weight : bold;
+	color: red;
+  	pointer-events:none
+}
+
+.error {
+	color : maroon;
+	font-weight : bold;
+	font-size: medium;
+}
+
+span.label {
+	color : gray;
+	font-family : cursive;
+	font-style : oblique;
+	font-weight : bold;
+	font-size: medium;
+}
