@@ -12,6 +12,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>GiocoCoppie</artifactId>
 	<version>1.0</version>
+	<packaging>war</packaging>
 	<name>GiocoCoppie</name>
 	<description>trova due carte delle stesso numero e vinci se fai più coppie di carte uguali</description>
 	<properties>
@@ -54,6 +55,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

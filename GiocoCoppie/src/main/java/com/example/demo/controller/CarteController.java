@@ -11,7 +11,7 @@ import com.example.demo.model.Carta;
 import com.example.demo.model.Napoletane;
 
 @RestController
-@RequestMapping("mazzo")
+@RequestMapping("/mazzo")
 public class CarteController {
 	
 	@Autowired

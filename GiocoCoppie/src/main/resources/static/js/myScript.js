@@ -151,7 +151,7 @@ function gioca() {
 					carteATerra=carteATerra-2;
 					if (carteATerra<=0) 
 						//alert("HAI VINTO! carteATerra = "+carteATerra);
-					  	location.href = "/GiocoCoppie/vittoria";
+					  	location.href = "/vittoria";
 					} else {
 					copriCarta(primaCarta);
 					copriCarta(secondaCarta);

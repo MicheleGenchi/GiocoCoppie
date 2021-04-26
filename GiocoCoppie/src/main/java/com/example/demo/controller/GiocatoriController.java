@@ -12,7 +12,7 @@ import com.example.demo.model.Giocatore;
 import com.example.demo.model.Giocatori;
 
 @RestController
-@RequestMapping(value="giocatore")
+@RequestMapping(value="/giocatore")
 public class GiocatoriController {
 	
 	@Autowired

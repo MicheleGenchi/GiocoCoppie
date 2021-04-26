@@ -17,7 +17,6 @@ import com.example.demo.model.Giocatori;
 import com.example.demo.model.Intestazione;
 
 @Controller
-@RequestMapping("GiocoCoppie")
 public class PageController {
 	
 	@Autowired 
@@ -27,7 +26,7 @@ public class PageController {
 	
 	Logger logger = LoggerFactory.getLogger(PageController.class);
 
-	@GetMapping("homepage")
+	@GetMapping("/")
 	public ModelAndView home(@ModelAttribute String messaggio) {
 		Map<String, Object> myMap=new HashMap<>();
 		myMap.put("dataCorrente", intestazione.getDataCorrente());
