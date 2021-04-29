@@ -142,7 +142,7 @@ function selezioneCarta(carta) {
 					if (status == "success")
 						return deferred.resolve("Carta selezionata "+dati.val+" di "+dati.seme);
 					else
-						return deferred("carta non presente nel mazzo");
+						return deferred.reject("carta non presente nel mazzo");
 				});
 			} 
 		});
