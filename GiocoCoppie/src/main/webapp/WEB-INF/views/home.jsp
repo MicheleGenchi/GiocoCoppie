@@ -17,7 +17,7 @@
 		<div class="row">
 			<div class="col-sm-5">
 				<img align="right" height="100" width="100"
-					src="/resources/img/Coppia.jpg" alt="risorsa non trovata" />
+					src="resources/img/coppia.jpg" alt="risorsa non trovata" />
 			</div>
 			<div class="col-sm-6">
 				<h7>Gioco coppie</h7>
@@ -57,6 +57,6 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-	<script src="/resources/js/myScript.js"></script>
+	<script src="resources/js/myScript.js"></script>
 </body>
 </html>

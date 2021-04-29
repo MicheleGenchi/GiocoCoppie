@@ -36,7 +36,7 @@ public class PageController {
 		return new ModelAndView("home", myMap);
 	}
 	
-	@GetMapping("vittoria")
+	@GetMapping("/vittoria")
 	public ModelAndView vittoria(@ModelAttribute String messaggio) {
 		Map<String, Object> myMap=new HashMap<>();
 		myMap.put("dataCorrente", intestazione.getDataCorrente());

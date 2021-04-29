@@ -3,7 +3,7 @@
  */
 var numeroPartecipanti = 0; // numero giocatori;
 var carteATerra=40;
-var coppia=0;
+var coppia=1;
 var primaCarta="";
 var secondaCarta="";
 var punti=0;
@@ -29,7 +29,7 @@ function preparaTavolo() {
 					.append(
 							"<img class='carte' id='"
 									+ idCarta
-									+ "' src='/resources/img/retro-carta.jpg' alt='coperta' Height='88' width='60' />");
+									+ "' src='resources/img/retro-carta.jpg' alt='coperta' Height='88' width='60' />");
 		}
 	}
 }
@@ -41,7 +41,7 @@ function lineaBefore(element) {
 }
 
 function mescola() {
-	$.get("http://localhost:8080/mazzo/mescolaCarte", function(dati, status) {
+	$.get("mazzo/mescolaCarte", function(dati, status) {
 	});
 }
 
@@ -88,8 +88,8 @@ function aggiungiGiocatori() {
 	for (i = 1; i <= numeroPartecipanti; i++) {
 		var giocatore = $("#Giocatore" + i).val();
 		if (giocatore=="") giocatore=$("#Giocatore" + i).attr("Placeholder");
-		//alert(giocatore);
-		$.get("/giocatore/aggiungi/" + giocatore, function(dati, status) {
+		// alert(giocatore);
+		$.get("giocatore/aggiungi/" + giocatore, function(dati, status) {
 		});
 	}
 }
@@ -105,12 +105,12 @@ function avvia() {
 function selezioneCarta(carta) {
 	var deferred = $.Deferred();
 	var idImage = carta.attr("id");
-		var url = "/mazzo/urlCarta/" + idImage;
+		var url = "mazzo/urlCarta/" + idImage;
 		$.get(url, function(dati, status) {
 			if (status == "success") {
 				carta.attr("alt", "girata");
 				carta.attr("src", dati);
-				$.get("/mazzo/carta/" + idImage, function(dati, status) {
+				$.get("mazzo/carta/" + idImage, function(dati, status) {
 					if (status == "success")
 						return deferred.resolve("Carta selezionata "+dati.val+" di "+dati.seme);
 					else
@@ -121,57 +121,60 @@ function selezioneCarta(carta) {
 	return deferred.promise();
 }
 
-function gioca() {
-	$(".carte").click(function(e) {
-		console.log("carta "+$(this).attr("id"));
-		var app=$(this).attr("id");
-		$.when(selezioneCarta($(this))).done(function(dati) {
-			coppia++;
-			switch (coppia) {
-			case 1:primaCarta=app;break;
-			case 2:secondaCarta=app;break;
-			default :primaCarta=""; secondaCarta=""; 
-		}
-		//se ci sono due coppie girate allora verifica se le due carte sono uguali
-		if ((coppia==2) & (primaCarta!=secondaCarta)) {
-			coppia=0;
-			$.get("/mazzo/confrontoCarte/"+parseInt(primaCarta)+"/"+parseInt(secondaCarta), function (dati, status) {
-				//alert("ci sono due carte da confrontare! \nPrima carta = "+primaCarta+"\nSeconda carta = "+secondaCarta);					
-				if (dati==true) {
-					alert("le due carte sono uguali!");
-					eliminaCarta(primaCarta);
-					eliminaCarta(secondaCarta);
-					$("#puntiGiocatore").disabled=false;
-					$("#puntiGiocatore").val(punti);
-					$("#puntiGiocatore").disabled=true;
-					$.get("/giocatore/aggiornaPunteggio/"+giocatore, function (dati, status) {
-						console.log(dati==true?"Punteggio aggiornato!":"Punteggio invariato");
-						aggiornaCampiGiocatore();
-					});
-					carteATerra=carteATerra-2;
-					if (carteATerra<=0) 
-						//alert("HAI VINTO! carteATerra = "+carteATerra);
-					  	location.href = "/vittoria";
-					} else {
-					copriCarta(primaCarta);
-					copriCarta(secondaCarta);
-					giocatoreSuccessivo();
-				}
-			});
-		} else {
-			if (primaCarta==secondaCarta)
-				coppia=1;
-		}
-		console.log("carta selezionata " + dati);
-		console.log("coppia = "+coppia);
-	}).fail(function(value) {
-		console.log(value);
-		});
+function le_due_carte_sono_uguali() {
+	eliminaCarta(primaCarta);
+	eliminaCarta(secondaCarta);
+	$("#puntiGiocatore").disabled=false;
+	$("#puntiGiocatore").val(punti);
+	$("#puntiGiocatore").disabled=true;
+	$.get("giocatore/aggiornaPunteggio/"+giocatore, function (dati, status) {
+		console.log("Giocatore "+giocatore+(dati==true?"  Punteggio aggiornato!":"  Punteggio invariato"));
+		aggiornaCampiGiocatore();
+		carteATerra=carteATerra-2;
 	});
 }
 
+function gioca() {
+	$(".carte").click(function(e) {
+		console.log("coppia = "+coppia);
+		console.log("carta = "+$(this).attr("id"));
+		var app=$(this).attr("id");
+		$.when(selezioneCarta($(this))).done(function(dati) {
+			switch (coppia) {
+				case 1:coppia++;console.log("prima carta\n"+dati);primaCarta=app;break;
+				case 2:if (primaCarta!=app) {
+						coppia++;
+						console.log("seconda carta\n"+dati);secondaCarta=app;
+						$.get("mazzo/confrontoCarte/"+parseInt(primaCarta)+"/"+parseInt(secondaCarta), function (dati, status) {
+							// alert("ci sono due carte da confrontare! \nPrima carta =
+							// "+primaCarta+"\nSeconda carta = "+secondaCarta);
+								if (dati==true) {
+									alert("le due carte sono uguali!");
+									le_due_carte_sono_uguali();
+									if (carteATerra<=0) // alert("HAI VINTO! carteATerra = "+carteATerra);
+										location.href = "vittoria";
+								} else {
+									alert("Mi spiace! Le due carte sono diverse...")
+									copriCarta(primaCarta);
+									copriCarta(secondaCarta);
+									giocatoreSuccessivo();
+								}
+								coppia=1;
+							});
+						} else {
+							coppia=2;
+							console.log("Stai cliccando sulla carta, già girata!");
+						}
+					break;
+					default :coppia=1; primaCarta=""; secondaCarta=""; 
+				}
+			});
+	});
+}
+
+
 function aggiornaCampiGiocatore() {
-	$.get("/giocatore/"+giocatore, function(dati, status) {
+	$.get("giocatore/cerca/"+giocatore, function(dati, status) {
 		$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
 		$("#nomeGiocatore").val(dati.nome);
 		$("#puntiGiocatore").val(dati.punti);
@@ -187,33 +190,33 @@ function giocatoreSuccessivo() {
 }
 
 function copriCarta(carta) {
-	//alert("copri la carta "+carta.attr("class")+"  "+carta.attr("id"));
+	// alert("copri la carta "+carta.attr("class")+" "+carta.attr("id"));
 	$(".carte#"+parseInt(carta)).attr("alt", "coperta");
-	$(".carte#"+parseInt(carta)).attr("src", "/resources/img/retro-carta.jpg");
+	$(".carte#"+parseInt(carta)).attr("src", "resources/img/retro-carta.jpg");
 }
 
 function eliminaCarta(carta) {
-	//alert("copri la carta "+carta.attr("class")+"  "+carta.attr("id"));
+	// alert("copri la carta "+carta.attr("class")+" "+carta.attr("id"));
 	$(".carte#"+parseInt(carta)).remove();
-	//$(".carte#"+parseInt(carta)).attr("src", "/resources/img/retro-carta.jpg");
+	// $(".carte#"+parseInt(carta)).attr("src",
+	// "/resources/img/retro-carta.jpg");
 }
 
 $().ready(function() {
 	$.when(avvia()).done(function() {
-		$.get("/giocatore/azzeraLista", function() {
-
+		$.get("giocatore/azzeraLista", function(dati, status) {
 		});
 		$.when(nGiocatori()).done(function() {
 			$("#inputNumeroGiocatori").change(function() {
 				numeroPartecipanti = $("#inputNumeroGiocatori").val();
-				//alert("numero partecipanti " + numeroPartecipanti);
+				// alert("numero partecipanti " + numeroPartecipanti);
 				inserimento_NomiGiocatori();
 				$("#gioca").click(function() {
 					aggiungiGiocatori();
 					mescola();
 					preparaTavolo();
-					//nome e punteggio giocatore
-					$.get("/giocatore/"+giocatore, function(dati, status) {
+					// nome e punteggio giocatore
+					$.get("giocatore/cerca/"+giocatore, function(dati, status) {
 						$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
 						$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='nomeGiocatore' class='col-m-4 badge badge-pill badge-secondary'>GIOCATORE : </label>");
 						$("#giocatore").append("<input type='text' id='nomeGiocatore' disabled value='"+dati.nome+"'></input>");
@@ -227,12 +230,4 @@ $().ready(function() {
 	});
 });
 
-// nuovaPartita();
-// preparaTavolo();
-// cartaA=selezioneCarta();
-// cartaB=selezioneCarta();
-// $.get("/gioca/confrontoCarte/"+carta1.getVal()+"/"+carta2.getVal(),
-// function(dati, status) {
-// alert("le carte sono "+dati==true?"uguali":"diverse");
-// });
 

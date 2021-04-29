@@ -11,7 +11,7 @@ import com.example.demo.model.Carta;
 import com.example.demo.model.Napoletane;
 
 @RestController
-@RequestMapping("/mazzo")
+@RequestMapping("mazzo")
 public class CarteController {
 	
 	@Autowired
@@ -21,19 +21,19 @@ public class CarteController {
 	@RequestMapping(value = "mescolaCarte")
 	public ResponseEntity<Napoletane> mescolaCarte() {
 		napoletane.mescola();
-		return new ResponseEntity<Napoletane>(napoletane, HttpStatus.OK);
+		return new ResponseEntity<>(napoletane, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "urlCarta/{idImage}")
 	public ResponseEntity<String> getUrlCarta(@PathVariable(value = "idImage") Integer idImage) {
 		Carta carta=napoletane.getCarte().get(idImage-1);
-		return new ResponseEntity<String>("/resources/img/Carte_Napoletane/"+carta.getSeme()+"/"+carta.getVal()+".jpg", HttpStatus.OK);
+		return new ResponseEntity<>("resources/img/Carte_Napoletane/"+carta.getSeme()+"/"+carta.getVal()+".jpg", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "carta/{idImage}")
 	public ResponseEntity<Carta> getCarta(@PathVariable(value = "idImage") Integer idImage) {
 		Carta carta=napoletane.getCarte().get(idImage-1);
-		return new ResponseEntity<Carta>(carta, HttpStatus.OK);
+		return new ResponseEntity<>(carta, HttpStatus.OK);
 	}
 	
 
@@ -43,8 +43,8 @@ public class CarteController {
 		Carta primaCarta=napoletane.getCarte().get(carta1-1);
 		Carta secondaCarta=napoletane.getCarte().get(carta2-1);
 		if (primaCarta.getVal() == secondaCarta.getVal())
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		return new ResponseEntity<>(false, HttpStatus.OK);
 	}
 	
 }

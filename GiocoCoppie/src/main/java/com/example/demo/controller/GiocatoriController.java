@@ -12,7 +12,7 @@ import com.example.demo.model.Giocatore;
 import com.example.demo.model.Giocatori;
 
 @RestController
-@RequestMapping(value="/giocatore")
+@RequestMapping(value="giocatore")
 public class GiocatoriController {
 	
 	@Autowired
@@ -23,29 +23,30 @@ public class GiocatoriController {
 	public ResponseEntity<String> aggiungiGiocatore(@PathVariable(value = "nome") String nome) {
 		Giocatore giocatore=new Giocatore(nome);
 		giocatori.getLista().add(giocatore);
-		return new ResponseEntity<String>("Giocatore "+nome+" aggiunto!", HttpStatus.OK);
+		return new ResponseEntity<>("Giocatore "+nome+" aggiunto!", HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("cerca/{id}")
 	public ResponseEntity<Giocatore> getGiocatore(@PathVariable(value = "id") int id) {
-		return new ResponseEntity<Giocatore>(giocatori.getLista().get(id), HttpStatus.OK);
+		return new ResponseEntity<>(giocatori.getLista().get(id), HttpStatus.OK);
 	}
 	
 	@GetMapping("aggiornaPunteggio/{id}")
 	public ResponseEntity<Boolean> aggiornaPunteggio(@PathVariable(value = "id") int id) {
 		giocatori.getLista().get(id).setPunti(giocatori.getLista().get(id).getPunti()+1);
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 	
 	
 	@GetMapping("lista")
 	public ResponseEntity<Giocatori> lista() {
-		return new ResponseEntity<Giocatori>(giocatori, HttpStatus.OK);
+		return new ResponseEntity<>(giocatori, HttpStatus.OK);
 	}
 	
 	@GetMapping("azzeraLista")
-	public void azzeraLista() {
+	public ResponseEntity<String> azzeraLista() {
 		giocatori.getLista().clear();
+		return new ResponseEntity<>("lista giocatori cancellata", HttpStatus.OK);
 	}
 	
 }

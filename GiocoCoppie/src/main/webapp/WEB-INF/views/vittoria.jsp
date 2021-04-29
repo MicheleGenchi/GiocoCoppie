@@ -17,7 +17,7 @@
 		<div class="row">
 			<div class="col-sm-5">
 				<img align="right" height="100" width="100"
-					src="/resources/img/Coppia.jpg" alt="risorsa non trovata" />
+					src="resources/img/coppia.jpg" alt="risorsa non trovata" />
 			</div>
 			<div class="col-sm-6">
 				<h7>Gioco coppie</h7>

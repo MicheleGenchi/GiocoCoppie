@@ -3,19 +3,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.example</groupId>
+	<artifactId>GiocoCoppie</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+	
+	<name>GiocoCoppie</name>
+	<description>trova due carte delle stesso numero e vinci se fai più coppie di carte uguali</description>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>GiocoCoppie</artifactId>
-	<version>1.0</version>
-	<packaging>war</packaging>
-	<name>GiocoCoppie</name>
-	<description>trova due carte delle stesso numero e vinci se fai più coppie di carte uguali</description>
+
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
