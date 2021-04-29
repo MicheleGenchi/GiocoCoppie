@@ -122,6 +122,7 @@ function selezioneCarta(carta) {
 }
 
 function le_due_carte_sono_uguali() {
+	carteATerra=carteATerra-2;
 	eliminaCarta(primaCarta);
 	eliminaCarta(secondaCarta);
 	$("#puntiGiocatore").disabled=false;
@@ -130,7 +131,6 @@ function le_due_carte_sono_uguali() {
 	$.get("giocatore/aggiornaPunteggio/"+giocatore, function (dati, status) {
 		console.log("Giocatore "+giocatore+(dati==true?"  Punteggio aggiornato!":"  Punteggio invariato"));
 		aggiornaCampiGiocatore();
-		carteATerra=carteATerra-2;
 	});
 }
 

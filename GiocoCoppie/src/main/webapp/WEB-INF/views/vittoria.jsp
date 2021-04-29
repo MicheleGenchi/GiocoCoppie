@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,26 +31,28 @@
 
 	<hr class='linea' align='center' size='1' color='blue' noshade />
 	<div class="container">
-	<center>
-	<h4>Classifica dei giocatori</h4>
-	<table style="width: 40%"class="table table-hover">
-	  <thead class="table-primary">
-	    <tr>
-	      <th style="width: 30%" scope="col">Nome</th>
-	      <th style="width: 10%" scope="col">Punti</th>
-	    </tr>
-	  </thead>
-	<tbody>
-	<c:forEach items="${giocatori.lista}" var="giocatore">
-		<tr><giocatore>
-           <td><c:out value="${giocatore.nome}"/></td>
-           <td><c:out value="${giocatore.punti}"/></td>
-        </tr></giocatore>
-    </c:forEach>
-    </tbody>
-    </table>
-    </center>
-	</div>	
+		<center>
+			<h4>Classifica dei giocatori</h4>
+			<table style="width: 40%" class="table table-hover">
+				<thead class="table-primary">
+					<tr>
+						<th style="width: 30%" scope="col">Nome</th>
+						<th style="width: 10%" scope="col">Punti</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${giocatori.lista}" var="giocatore">
+						<tr>
+							<giocatore>
+							<td><c:out value="${giocatore.nome}" /></td>
+							<td><c:out value="${giocatore.punti}" /></td>
+						</tr>
+						</giocatore>
+					</c:forEach>
+				</tbody>
+			</table>
+		</center>
+	</div>
 
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -64,6 +66,5 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-	<script src="/resources/js/myScript.js"></script>
 </body>
 </html>
