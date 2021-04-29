@@ -41,7 +41,14 @@ function lineaBefore(element) {
 }
 
 function mescola() {
-	$.get("mazzo/mescolaCarte", function(dati, status) {
+	var deferred=$.Deferred();
+	$.getJSON("mazzo/mescolaCarte", function(dati, status) {
+		if (status=="success") {
+			return deferred.resolve("carte mescolate!");
+		} else {
+			return deferred.reject("carte non mescolate!");
+		}
+		return deferred.promise();
 	});
 }
 
@@ -95,9 +102,30 @@ function aggiungiGiocatori() {
 }
 
 function avvia() {
-	var deferred = $.Deferred();
+	var deferred=$.Deferred();
 	$("#avvia").click(function() {
-		return deferred.resolve();
+		$.get("giocatore/azzeraLista", function(dati, status) {
+			if (status=="success")
+				return deferred.resolve();
+			else 
+				return deferred.reject();
+		});
+	});
+	return deferred.promise();
+}
+
+function inserimento_giocatori() {
+	var deferred = $.Deferred();
+	$.when(nGiocatori()).done(function() {
+		$("#inputNumeroGiocatori").change(function() {
+			numeroPartecipanti = $("#inputNumeroGiocatori").val();
+			// alert("numero partecipanti " + numeroPartecipanti);
+			inserimento_NomiGiocatori();
+			$("button#gioca").click(function() {
+				aggiungiGiocatori();
+				return deferred.resolve();
+			});
+		});
 	});
 	return deferred.promise();
 }
@@ -174,10 +202,14 @@ function gioca() {
 
 
 function aggiornaCampiGiocatore() {
-	$.get("giocatore/cerca/"+giocatore, function(dati, status) {
-		$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
-		$("#nomeGiocatore").val(dati.nome);
-		$("#puntiGiocatore").val(dati.punti);
+	$.getJSON("giocatore/cerca/"+giocatore, function(dati, status) {
+		if (status=="success") {
+			$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
+			$("#nomeGiocatore").val(dati.nome);
+			$("#puntiGiocatore").val(dati.punti);
+		} else {
+			console.log("I dati del giocatore non sono stati recuperati!");
+		}
 	});
 }
 
@@ -203,31 +235,35 @@ function eliminaCarta(carta) {
 }
 
 $().ready(function() {
-	$.when(avvia()).done(function() {
-		$.get("giocatore/azzeraLista", function(dati, status) {
-		});
-		$.when(nGiocatori()).done(function() {
-			$("#inputNumeroGiocatori").change(function() {
-				numeroPartecipanti = $("#inputNumeroGiocatori").val();
-				// alert("numero partecipanti " + numeroPartecipanti);
-				inserimento_NomiGiocatori();
-				$("#gioca").click(function() {
-					aggiungiGiocatori();
-					mescola();
-					preparaTavolo();
-					// nome e punteggio giocatore
-					$.get("giocatore/cerca/"+giocatore, function(dati, status) {
-						$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
-						$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='nomeGiocatore' class='col-m-4 badge badge-pill badge-secondary'>GIOCATORE : </label>");
-						$("#giocatore").append("<input type='text' id='nomeGiocatore' disabled value='"+dati.nome+"'></input>");
-						$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='puntiGiocatore' class='col-m-4 badge badge-pill badge-secondary'>PUNTI : </label>");
-						$("#giocatore").append("<input type='text' id='puntiGiocatore' disabled value='"+dati.punti+"'></input>");
+	$.when(avvia()).done(function(){
+		$.when(inserimento_giocatori()).done(function(){
+
+			alert("GIOCHIAMO!!!");
+
+			$.when(mescola()).done(function() {
+				preparaTavolo();
+				// nome e punteggio giocatore
+				$.get("giocatore/cerca/"+giocatore, function(dati, status) {
+					$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
+					$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='nomeGiocatore' class='col-m-4 badge badge-pill badge-secondary'>GIOCATORE : </label>");
+					$("#giocatore").append("<input type='text' id='nomeGiocatore' disabled value='"+dati.nome+"'></input>");
+					$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='puntiGiocatore' class='col-m-4 badge badge-pill badge-secondary'>PUNTI : </label>");
+					$("#giocatore").append("<input type='text' id='puntiGiocatore' disabled value='"+dati.punti+"'></input>");
 					gioca();
-					});
 				});
+			}).fail(function(msg) {
+				console.log(msg);
 			});
+
+			
 		});
 	});
 });
+	
 
+
+			
+
+
+	
 
