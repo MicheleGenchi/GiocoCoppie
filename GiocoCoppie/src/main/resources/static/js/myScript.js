@@ -43,13 +43,16 @@ function lineaBefore(element) {
 function mescola() {
 	var deferred=$.Deferred();
 	$.getJSON("mazzo/mescolaCarte", function(dati, status) {
-		if (status=="success") {
-			return deferred.resolve("carte mescolate!");
-		} else {
-			return deferred.reject("carte non mescolate!");
+//		console.log(dati==true?"le carte sono state " +
+//				"mescolate":"le carte non sono state mescolate");
+		switch (dati) {
+			case true : return deferred.resolve("carte mescolate!");
+			case false : return deferred.reject("carte non mescolate!");
+			default : return deferred.promise();
 		}
-		return deferred.promise();
 	});
+	return deferred.promise();
+	
 }
 
 function nGiocatori() {
@@ -69,7 +72,12 @@ function nGiocatori() {
 	}
 }
 
+function cancellateInputBox_nomiGiocatori() {
+	$("#listaGiocatori").remove();
+}
+
 function inserimento_NomiGiocatori() {
+	
 	$("#tavolo").append("</br><div class='container' id='listaGiocatori'></div>");
 	var i;
 	for (i = 1; i <= numeroPartecipanti; i++) {
@@ -85,10 +93,17 @@ function inserimento_NomiGiocatori() {
 						+ "' aria-label='Giocatore" + i
 						+ "' aria-describedby='basic-addon1'></input>");
 	}
-	$("#listaGiocatori")
-			.after(
-					"</br><div class='col text-center'><button id='gioca' class='btn btn-primary'>CONFERMA GIOCATORI</button>");
+	var myel = $("div#divGioca", $("#listaGiocatori")).length ? $("div#divGioca", $("#listaGiocatori")) : $("</br><div class='col text-center' id='divGioca'></div>").appendTo($("#listaGiocatori"));
+	myel.append("<button id='gioca' class='btn btn-primary'>CONFERMA GIOCATORI</button>");
+//	$("#listaGiocatori")
+//			.append(ifNotExists("div#divGioca").create("</br><div class='col text-center' id='divGioca'>" +
+//					"<button id='gioca' class='btn btn-primary'>CONFERMA GIOCATORI</button></div>"));
 	numeroPartecipanti = i - 1;
+}
+
+function ifNotExists($x){
+    if(!$x || $x.length === 0) return { create : function(newX){ return newX; }}
+    else return { create : function(){ return $x } };
 }
 
 function aggiungiGiocatori() {
@@ -99,32 +114,33 @@ function aggiungiGiocatori() {
 		$.get("giocatore/aggiungi/" + giocatore, function(dati, status) {
 		});
 	}
+	aggiungiGiocatori=true;
 }
 
-function avvia() {
+function azzeraListaGiocatori() {
 	var deferred=$.Deferred();
-	$("#avvia").click(function() {
-		$.get("giocatore/azzeraLista", function(dati, status) {
-			if (status=="success")
-				return deferred.resolve();
-			else 
-				return deferred.reject();
-		});
+	$.get("giocatore/azzeraLista", function(dati, status) {
+		switch (status) {
+		case "success" : return deferred.resolve("lista giocatori pulita");
+		case "error" : return deferred.reject("lista giocatori non azzerata");
+		}
 	});
 	return deferred.promise();
 }
 
 function inserimento_giocatori() {
-	var deferred = $.Deferred();
+	var deferred=$.Deferred();
 	$.when(nGiocatori()).done(function() {
 		$("#inputNumeroGiocatori").change(function() {
+			$("div#listaGiocatori").remove();
 			numeroPartecipanti = $("#inputNumeroGiocatori").val();
-			// alert("numero partecipanti " + numeroPartecipanti);
-			inserimento_NomiGiocatori();
-			$("button#gioca").click(function() {
-				aggiungiGiocatori();
-				return deferred.resolve();
+			$.when(inserimento_NomiGiocatori()).done(function() {
+				console.log("input per giocatori pronti!");
+				$.when(azzeraListaGiocatori()).done(function(msgListaVuota) {
+					console.log("lista dei partecipanti vuota!");
+				});
 			});
+			return deferred.resolve();
 		});
 	});
 	return deferred.promise();
@@ -133,19 +149,30 @@ function inserimento_giocatori() {
 function selezioneCarta(carta) {
 	var deferred = $.Deferred();
 	var idImage = carta.attr("id");
-		var url = "mazzo/urlCarta/" + idImage;
-		$.get(url, function(dati, status) {
-			if (status == "success") {
-				carta.attr("alt", "girata");
-				carta.attr("src", dati);
-				$.get("mazzo/carta/" + idImage, function(dati, status) {
-					if (status == "success")
-						return deferred.resolve("Carta selezionata "+dati.val+" di "+dati.seme);
-					else
-						return deferred.reject("carta non presente nel mazzo");
-				});
-			} 
-		});
+	var url = "mazzo/urlCarta/" + idImage;
+	var msg = "";
+	$.get(url, function(urlCarta, status) {
+		switch (status) {
+		    case "success" : 	
+       			if (carta.attr("alt")!="girata") {
+					carta.attr("alt", "girata");
+					carta.attr("src", urlCarta);
+					$.get("mazzo/carta/" + idImage, function(cartaSelezionata, status) {
+						cartaSelezionataString=cartaSelezionata.val+" di "+cartaSelezionata.seme;
+						switch (status) {
+							case "success" : msg="Carta selezionata "+cartaSelezionataString;break;
+							case "error" : 	msg="La carta "+cartaSelezionataString+"  non presente nel mazzo";break;
+						}
+					});
+					return deferred.resolve(msg);
+				} else {
+					return deferred.reject("La carta "+cartaSelezionataString+"  è già scoperta!");
+				}
+	
+			case "error" :
+				return deferred.reject("Non è stato possibile caricare l'immagine della carta!");
+		}
+	});
 	return deferred.promise();
 }
 
@@ -166,37 +193,31 @@ function gioca() {
 	$(".carte").click(function(e) {
 		console.log("coppia = "+coppia);
 		console.log("carta = "+$(this).attr("id"));
-		var app=$(this).attr("id");
-		$.when(selezioneCarta($(this))).done(function(dati) {
+		var cartaCliccata=$(this);
+		$.when(selezioneCarta(cartaCliccata)).done(function(msg) {
+			console.log(msg);
 			switch (coppia) {
-				case 1:coppia++;console.log("prima carta\n"+dati);primaCarta=app;break;
-				case 2:if (primaCarta!=app) {
-						coppia++;
-						console.log("seconda carta\n"+dati);secondaCarta=app;
-						$.get("mazzo/confrontoCarte/"+parseInt(primaCarta)+"/"+parseInt(secondaCarta), function (dati, status) {
-							// alert("ci sono due carte da confrontare! \nPrima carta =
-							// "+primaCarta+"\nSeconda carta = "+secondaCarta);
-								if (dati==true) {
-									alert("le due carte sono uguali!");
-									le_due_carte_sono_uguali();
-									if (carteATerra<=0) // alert("HAI VINTO! carteATerra = "+carteATerra);
-										location.href = "vittoria";
-								} else {
-									alert("Mi spiace! Le due carte sono diverse...")
-									copriCarta(primaCarta);
-									copriCarta(secondaCarta);
-									giocatoreSuccessivo();
-								}
-								coppia=1;
-							});
+				case 1:coppia++;primaCarta=cartaCliccata.attr("id");break;
+				case 2:coppia++;secondaCarta=cartaCliccata.attr("id");
+					$.get("mazzo/confrontoCarte/"+parseInt(primaCarta)+"/"+parseInt(secondaCarta), function (confronto, status) {
+						if (confronto==true) {
+							alert("le due carte sono uguali!");
+							le_due_carte_sono_uguali();
+							if (carteATerra<=0) // alert("HAI VINTO! carteATerra = "+carteATerra);
+								location.href = "vittoria";
 						} else {
-							coppia=2;
-							console.log("Stai cliccando sulla carta, già girata!");
+							alert("Mi spiace! Le due carte sono diverse...")
+							copriCarta(primaCarta);
+							copriCarta(secondaCarta);
+							giocatoreSuccessivo();
 						}
-					break;
-					default :coppia=1; primaCarta=""; secondaCarta=""; 
+						coppia=1;
+					});	break;
+					default : primaCarta=""; secondaCarta=""; 
 				}
-			});
+		}).fail(function(msg) {
+			console.log(msg);
+		});
 	});
 }
 
@@ -228,42 +249,49 @@ function copriCarta(carta) {
 }
 
 function eliminaCarta(carta) {
-	// alert("copri la carta "+carta.attr("class")+" "+carta.attr("id"));
+	var deferred=$.Deferred();
 	$(".carte#"+parseInt(carta)).remove();
-	// $(".carte#"+parseInt(carta)).attr("src",
-	// "/resources/img/retro-carta.jpg");
+	$.getJSON("mazzo/elimina/"+carta, function(dati, status) {
+		switch (status) {
+			case "success" : return deferred.resolve("La Carta non è più a terra");
+			case "error" : return deferred.error("La carta non esiste");
+		}
+	});
+	return deferred.promise();
+}
+
+function avvia() {
+	var deferred=$.Deferred();
+	$("#avvia").click(function() {
+		return deferred.resolve("Avvio partita!!!");
+	});
+	return deferred.promise();
 }
 
 $().ready(function() {
-	$.when(avvia()).done(function(){
+	$.when(avvia()).done(function(msgAvvio){
+		console.log(msgAvvio);
 		$.when(inserimento_giocatori()).done(function(){
-
-			alert("GIOCHIAMO!!!");
-
-			$.when(mescola()).done(function() {
+			$("button#gioca").click(function() {
+				aggiungiGiocatori();
+				alert("GIOCHIAMOOOOO!!!!");
 				preparaTavolo();
-				// nome e punteggio giocatore
-				$.get("giocatore/cerca/"+giocatore, function(dati, status) {
-					$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
-					$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='nomeGiocatore' class='col-m-4 badge badge-pill badge-secondary'>GIOCATORE : </label>");
-					$("#giocatore").append("<input type='text' id='nomeGiocatore' disabled value='"+dati.nome+"'></input>");
-					$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='puntiGiocatore' class='col-m-4 badge badge-pill badge-secondary'>PUNTI : </label>");
-					$("#giocatore").append("<input type='text' id='puntiGiocatore' disabled value='"+dati.punti+"'></input>");
-					gioca();
+				$.when(mescola()).done(function(msg) {
+					console.log(msg);
+					$.get("giocatore/cerca/"+giocatore, function(dati, status) {
+						$("#carte").before("<center><div id='giocatore' class='container'></div></center>");
+						$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='nomeGiocatore' class='col-m-4 badge badge-pill badge-secondary'>GIOCATORE : </label>");
+						$("#giocatore").append("<input type='text' id='nomeGiocatore' disabled value='"+dati.nome+"'></input>");
+						$("#giocatore").append("<label style='font-size: 16px; margin-left: 50px' for='puntiGiocatore' class='col-m-4 badge badge-pill badge-secondary'>PUNTI : </label>");
+						$("#giocatore").append("<input type='text' id='puntiGiocatore' disabled value='"+dati.punti+"'></input>");
+						gioca();
+					});
+				}).fail(function(msg) {
+					console.log(msg);
 				});
-			}).fail(function(msg) {
-				console.log(msg);
 			});
-
-			
 		});
 	});
 });
-	
-
-
-			
-
-
 	
 

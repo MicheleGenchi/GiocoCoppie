@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-public class Carta {
+public class Carta  {
 	private int val;
 	private Seme seme;
 	

@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +20,29 @@ public class CarteController {
 	Napoletane napoletane;
 	
 	
+	@RequestMapping(value = "carteATerra")
+	public ResponseEntity<List<Carta>> carteATerra() {
+		return new ResponseEntity<>(napoletane.getCarte(), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "mescolaCarte")
-	public ResponseEntity<Napoletane> mescolaCarte() {
+	public ResponseEntity<Boolean> mescolaCarte() {
+		boolean mescolate=false;
 		napoletane.mescola();
-		return new ResponseEntity<>(napoletane, HttpStatus.OK);
+		mescolate=true;
+		return new ResponseEntity<>(mescolate, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "urlCarta/{idImage}")
 	public ResponseEntity<String> getUrlCarta(@PathVariable(value = "idImage") Integer idImage) {
 		Carta carta=napoletane.getCarte().get(idImage-1);
 		return new ResponseEntity<>("resources/img/Carte_Napoletane/"+carta.getSeme()+"/"+carta.getVal()+".jpg", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "elimina/{idCarta}")
+	public ResponseEntity<String> eliminaCarta(@PathVariable(value = "idCarta") Integer idCarta) {
+		Carta carta=napoletane.getCarte().remove(idCarta-1);
+		return new ResponseEntity<>(carta.getVal()+" di "+carta.getSeme(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "carta/{idImage}")

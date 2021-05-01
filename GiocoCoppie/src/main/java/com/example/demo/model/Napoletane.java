@@ -1,30 +1,26 @@
 package com.example.demo.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class Napoletane implements CarteManager {
-	private List<Carta> carte;
+	private List<Carta> carte=new ArrayList<>();
 	
 	public Napoletane() {
-		carte=new ArrayList<>();
 		for (int s=1; s<=4; s++)
 			for (int v=1; v<=10; v++)
 				carte.add(new Carta(v, Seme.get(s)));	
 	}
 	
 	@Override
-	public void mescola() {
-		Set<Carta> carteMescolate=new HashSet<>();
-		for (Carta carta: this.carte) { //carta[0] is null perciò utilizzo ciclo con indice i
-			carteMescolate.add(carta);
-		}
-		this.carte=new ArrayList<>(carteMescolate);
+	public Boolean mescola() {
+		Collections.shuffle(carte);
+		return true;
 	}
 
 	public List<Carta> getCarte() {

@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class GiocatoriController {
 	
 	@Autowired
 	Giocatori giocatori;
-
+	private static Logger LOGGER = LoggerFactory.getLogger(GiocatoriController.class);
 	
 	@GetMapping("aggiungi/{nome}")
 	public ResponseEntity<String> aggiungiGiocatore(@PathVariable(value = "nome") String nome) {
@@ -28,6 +30,7 @@ public class GiocatoriController {
 
 	@GetMapping("cerca/{id}")
 	public ResponseEntity<Giocatore> getGiocatore(@PathVariable(value = "id") int id) {
+		LOGGER.debug(giocatori.getLista().get(id).toString());
 		return new ResponseEntity<>(giocatori.getLista().get(id), HttpStatus.OK);
 	}
 	
@@ -40,6 +43,7 @@ public class GiocatoriController {
 	
 	@GetMapping("lista")
 	public ResponseEntity<Giocatori> lista() {
+		LOGGER.debug(new StringBuilder().append(giocatori.getLista().stream().allMatch(n->(n==n))).toString());
 		return new ResponseEntity<>(giocatori, HttpStatus.OK);
 	}
 	
