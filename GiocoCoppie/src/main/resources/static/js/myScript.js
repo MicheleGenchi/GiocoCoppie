@@ -56,7 +56,6 @@ function mescola() {
 }
 
 function nGiocatori() {
-	
 	$("#tavolo").append(
 			"<div class='container'><div id='nGiocatori' class='input-group-prepend'></div></div>");
 	$("#tavolo #nGiocatori")
@@ -72,39 +71,35 @@ function nGiocatori() {
 	}
 }
 
-function cancellateInputBox_nomiGiocatori() {
-	$("#listaGiocatori").remove();
-}
-
 function inserimento_NomiGiocatori() {
-	
-	$("#tavolo").append("</br><div class='container' id='listaGiocatori'></div>");
-	var i;
-	for (i = 1; i <= numeroPartecipanti; i++) {
-		$('#listaGiocatori').append(
-				"<div class='row'><div class='input-group-prepend' id='divGiocatore" + i + "'></div></div>");
-		$("#divGiocatore" + i).append(
-				"<label for='Giocatore" + i
-						+ "' class='input-group-text'>Giocatore n." + i
-						+ "</label>");
-		$("#divGiocatore" + i).append(
-				"<input type='text' id='Giocatore" + i
-						+ "' class='form-control' placeholder='Giocatore" + i
-						+ "' aria-label='Giocatore" + i
-						+ "' aria-describedby='basic-addon1'></input>");
-	}
-	var myel = $("div#divGioca", $("#listaGiocatori")).length ? $("div#divGioca", $("#listaGiocatori")) : $("</br><div class='col text-center' id='divGioca'></div>").appendTo($("#listaGiocatori"));
-	myel.append("<button id='gioca' class='btn btn-primary'>CONFERMA GIOCATORI</button>");
-//	$("#listaGiocatori")
-//			.append(ifNotExists("div#divGioca").create("</br><div class='col text-center' id='divGioca'>" +
-//					"<button id='gioca' class='btn btn-primary'>CONFERMA GIOCATORI</button></div>"));
-	numeroPartecipanti = i - 1;
+	var deferred=$.Deferred();
+	if (!(esiste("div.container#listaGiocatori"))) {
+		$("#tavolo").append("<div class='container' id='listaGiocatori'></div>");
+		var i;
+		for (i = 1; i <= numeroPartecipanti; i++) {
+			$('#listaGiocatori').append(
+					"<div class='row'><div class='input-group-prepend' id='divGiocatore" + i + "'></div></div>");
+			$("#divGiocatore" + i).append(
+					"<label for='Giocatore" + i
+							+ "' class='input-group-text'>Giocatore n." + i
+							+ "</label>");
+			$("#divGiocatore" + i).append(
+					"<input type='text' id='Giocatore" + i
+							+ "' class='form-control' placeholder='Giocatore" + i
+							+ "' aria-label='Giocatore" + i
+							+ "' aria-describedby='basic-addon1'></input>");
+		}
+		$("#listaGiocatori").after("<div class='col text-center' id='divGioca'></div>");
+		$("#divGioca").append("<button id='gioca' class='btn btn-primary'>CONFERMA GIOCATORI</button>");
+		numeroPartecipanti = i - 1;
+	} 
+	return deferred.resolve("input box per giocatori creati!");
 }
 
-function ifNotExists($x){
-    if(!$x || $x.length === 0) return { create : function(newX){ return newX; }}
-    else return { create : function(){ return $x } };
-}
+function esiste(selettore) {
+	  if ($(selettore).length) return true;
+	  else return false;
+	}
 
 function aggiungiGiocatori() {
 	for (i = 1; i <= numeroPartecipanti; i++) {
@@ -132,15 +127,17 @@ function inserimento_giocatori() {
 	var deferred=$.Deferred();
 	$.when(nGiocatori()).done(function() {
 		$("#inputNumeroGiocatori").change(function() {
-			$("div#listaGiocatori").remove();
+			deferred=new $.Deferred();
+			$("#listaGiocatori").remove();
+			$("#divGioca").remove();
 			numeroPartecipanti = $("#inputNumeroGiocatori").val();
-			$.when(inserimento_NomiGiocatori()).done(function() {
-				console.log("input per giocatori pronti!");
+			$.when(inserimento_NomiGiocatori()).done(function(msgInputBoxCreati) {
+				console.log(msgInputBoxCreati);
 				$.when(azzeraListaGiocatori()).done(function(msgListaVuota) {
-					console.log("lista dei partecipanti vuota!");
+					console.log(msgListaVuota);
+					return deferred.resolve();
 				});
 			});
-			return deferred.resolve();
 		});
 	});
 	return deferred.promise();
@@ -273,7 +270,8 @@ $().ready(function() {
 	$.when(avvia()).done(function(msgAvvio){
 		console.log(msgAvvio);
 		$.when(inserimento_giocatori()).done(function(){
-			$("button#gioca").click(function() {
+			$("#gioca").click(function() {
+				console.log("GIOCHIAMOOOO!!!");
 				aggiungiGiocatori();
 				alert("GIOCHIAMOOOOO!!!!");
 				preparaTavolo();
