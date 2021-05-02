@@ -24,33 +24,46 @@ public class GiocatoriController {
 	@GetMapping("aggiungi/{nome}")
 	public ResponseEntity<String> aggiungiGiocatore(@PathVariable(value = "nome") String nome) {
 		Giocatore giocatore=new Giocatore(nome);
-		giocatori.getLista().add(giocatore);
-		return new ResponseEntity<>("Giocatore "+nome+" aggiunto!", HttpStatus.OK);
+		if (giocatori.getLista().add(giocatore))
+			return new ResponseEntity<>("Giocatore "+nome+" aggiunto!", HttpStatus.OK);
+		return new ResponseEntity<>("Giocatore "+nome+" non aggiunto!", HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping("cerca/{id}")
 	public ResponseEntity<Giocatore> getGiocatore(@PathVariable(value = "id") int id) {
-		LOGGER.debug(giocatori.getLista().get(id).toString());
-		return new ResponseEntity<>(giocatori.getLista().get(id), HttpStatus.OK);
+		Giocatore giocatore=null;
+		giocatore=giocatori.getLista().get(id);
+		if (giocatore!=null)
+			return new ResponseEntity<>(giocatore, HttpStatus.OK);
+		return new ResponseEntity<>(giocatore, HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("aggiornaPunteggio/{id}")
 	public ResponseEntity<Boolean> aggiornaPunteggio(@PathVariable(value = "id") int id) {
-		giocatori.getLista().get(id).setPunti(giocatori.getLista().get(id).getPunti()+1);
-		return new ResponseEntity<>(true, HttpStatus.OK);
+		Giocatore giocatore=null;
+		giocatore=giocatori.getLista().get(id);
+		if (giocatore!=null) {
+			giocatore.setPunti(giocatori.getLista().get(id).getPunti()+1);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 	}
 	
 	
 	@GetMapping("lista")
 	public ResponseEntity<Giocatori> lista() {
 		LOGGER.debug(new StringBuilder().append(giocatori.getLista().stream().allMatch(n->(n==n))).toString());
-		return new ResponseEntity<>(giocatori, HttpStatus.OK);
+		if (giocatori.getLista().size()>0)
+			return new ResponseEntity<>(giocatori, HttpStatus.OK);
+		return new ResponseEntity<>(giocatori, HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("azzeraLista")
 	public ResponseEntity<String> azzeraLista() {
 		giocatori.getLista().clear();
-		return new ResponseEntity<>("lista giocatori cancellata", HttpStatus.OK);
+		if (giocatori.getLista().size()==0)
+			return new ResponseEntity<>("lista giocatori cancellata", HttpStatus.OK);
+		return new ResponseEntity<>("Non è stato possibile cancellare lista giocatori", HttpStatus.BAD_REQUEST);
 	}
 	
 }

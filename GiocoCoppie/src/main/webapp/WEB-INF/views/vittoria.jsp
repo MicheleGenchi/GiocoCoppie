@@ -49,7 +49,7 @@
 				</tbody>
 			</table>
 			
-			<a href="/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">NUOVA PARTITA</a>
+			<a href="/giocoCoppie" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">NUOVA PARTITA</a>
 			
 		</center>
 	</div>

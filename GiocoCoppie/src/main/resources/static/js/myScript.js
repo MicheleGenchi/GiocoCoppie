@@ -158,19 +158,14 @@ function selezioneCarta(carta) {
 					carta.attr("alt", "girata");
 					carta.attr("src", urlCarta);
 					$.get("mazzo/carta/" + idImage, function(cartaSelezionata, status) {
-						cartaSelezionataString=cartaSelezionata.val+" di "+cartaSelezionata.seme;
-						switch (status) {
-							case "success" : msg="Carta selezionata "+cartaSelezionataString;break;
-							case "error" : 	msg="La carta "+cartaSelezionataString+"  non presente nel mazzo";break;
-						}
 					});
-					return deferred.resolve(msg);
+					return deferred.resolve("Carta selezionata!");
 				} else {
-					return deferred.reject("La carta "+cartaSelezionataString+"  è già scoperta!");
+					return deferred.reject("carata già girata");
 				}
-	
 			case "error" :
 				return deferred.reject("Non è stato possibile caricare l'immagine della carta!");
+			default : return deferred.promise();	
 		}
 	});
 	return deferred.promise();
@@ -195,28 +190,34 @@ function gioca() {
 		console.log("carta = "+$(this).attr("id"));
 		var cartaCliccata=$(this);
 		$.when(selezioneCarta(cartaCliccata)).done(function(msg) {
-			console.log(msg);
+			console.log("......."+msg);
 			switch (coppia) {
-				case 1:coppia++;primaCarta=cartaCliccata.attr("id");break;
-				case 2:coppia++;secondaCarta=cartaCliccata.attr("id");
-					$.get("mazzo/confrontoCarte/"+parseInt(primaCarta)+"/"+parseInt(secondaCarta), function (confronto, status) {
-						if (confronto==true) {
-							alert("le due carte sono uguali!");
-							le_due_carte_sono_uguali();
-							if (carteATerra<=0) // alert("HAI VINTO! carteATerra = "+carteATerra);
-								location.href = "vittoria";
+				case 1:console.log("prima carta");coppia++;primaCarta=cartaCliccata.attr("id");break;
+				case 2:console.log("seconda carta");coppia++;secondaCarta=cartaCliccata.attr("id");
+					$.getJSON("mazzo/confrontoCarte/"+parseInt(primaCarta)+"/"+parseInt(secondaCarta), function (confronto, status) {
+						if (status="success") {
+							switch (confronto) {
+								case true :
+									alert("le due carte sono uguali!");
+									le_due_carte_sono_uguali();
+									if (carteATerra<=0) // alert("HAI VINTO! carteATerra = "+carteATerra);
+										location.href = "vittoria";
+									break;
+								case false :
+									alert("Mi spiace! Le due carte sono diverse...")
+									copriCarta(primaCarta);
+									copriCarta(secondaCarta);
+									giocatoreSuccessivo();
+									break;
+							}
+							coppia=1;
 						} else {
-							alert("Mi spiace! Le due carte sono diverse...")
-							copriCarta(primaCarta);
-							copriCarta(secondaCarta);
-							giocatoreSuccessivo();
+							console.log("Errore nella selezione delle carte...")
 						}
-						coppia=1;
-					});	break;
+					});	
+					break;
 					default : primaCarta=""; secondaCarta=""; 
 				}
-		}).fail(function(msg) {
-			console.log(msg);
 		});
 	});
 }
