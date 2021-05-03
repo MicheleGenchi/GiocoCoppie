@@ -48,7 +48,7 @@ public class CarteController {
 	@RequestMapping(value = "urlCarta/{idImage}")
 	public ResponseEntity<String> getUrlCarta(@PathVariable(value = "idImage") Integer idImage) {
 		Carta carta=null;
-		carta=napoletane.getCarte().get(idImage);
+		carta=napoletane.trovaCarta(idImage);
 		if (carta!=null)
 			return new ResponseEntity<>("resources/img/Carte_Napoletane/"+carta.getSeme()+"/"+carta.getVal()+".jpg", HttpStatus.OK);
 		return new ResponseEntity<>("Immagine carta non trovata", HttpStatus.FOUND);
@@ -67,7 +67,7 @@ public class CarteController {
 	@RequestMapping(value = "carta/{idImage}")
 	public ResponseEntity<Carta> getCarta(@PathVariable(value = "idImage") Integer idImage) {
 		Carta carta=null;
-		carta=napoletane.getCarte().get(idImage);
+		carta=napoletane.trovaCarta(idImage);
 		if (carta!=null)
 			return new ResponseEntity<>(carta, HttpStatus.OK);
 		return  new ResponseEntity<>(carta, HttpStatus.BAD_REQUEST);

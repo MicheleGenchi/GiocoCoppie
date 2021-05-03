@@ -279,7 +279,7 @@ $().ready(function() {
 						$("#giocatore").append("<input type='text' id='puntiGiocatore' disabled value='"+dati.punti+"'></input>");
 						$.when(gioca()).done(function(msg){
 							console.log(msg);
-							location.href = "vittoria";
+							location.href = "/vittoria";
 						});
 					}).fail(function() {
 						console.log("Non ci sono giocatori");
