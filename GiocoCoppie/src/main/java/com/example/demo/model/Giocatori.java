@@ -7,13 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Component
-@SessionScope
-public class Giocatori implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 483301107425896413L;
+public class Giocatori {
 	private List<Giocatore> lista;
 	
 	public Giocatori() {
@@ -27,6 +24,4 @@ public class Giocatori implements Serializable {
 	public void setLista(List<Giocatore> lista) {
 		this.lista = lista;
 	}
-
-	
 }
