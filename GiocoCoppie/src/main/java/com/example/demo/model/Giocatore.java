@@ -1,10 +1,5 @@
 package com.example.demo.model;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
-
-@Component
-@RequestScope
 public class Giocatore  {
 	private int id;
 	private String nome="";

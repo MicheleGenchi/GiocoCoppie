@@ -52,7 +52,7 @@ public class GiocatoriController {
 	
 	@GetMapping("lista")
 	public ResponseEntity<Giocatori> lista() {
-		LOGGER.debug(new StringBuilder().append(giocatori.getLista().stream().allMatch(n->(n==n))).toString());
+		//LOGGER.debug(new StringBuilder().append(giocatori.getLista().stream().allMatch(n->(n==n))).toString());
 		if (giocatori.getLista().size()>0)
 			return new ResponseEntity<>(giocatori, HttpStatus.OK);
 		return new ResponseEntity<>(giocatori, HttpStatus.BAD_REQUEST);

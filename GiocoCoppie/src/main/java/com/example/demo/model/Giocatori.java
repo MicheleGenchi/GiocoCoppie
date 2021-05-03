@@ -14,10 +14,10 @@ public class Giocatori implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 483301107425896413L;
-	private List<Giocatore> lista=new ArrayList<>();
+	private List<Giocatore> lista;
 	
 	public Giocatori() {
-		 
+		lista=new ArrayList<>();
 	}
 
 	public List<Giocatore> getLista() {
