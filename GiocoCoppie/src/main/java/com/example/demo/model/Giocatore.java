@@ -6,6 +6,7 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 public class Giocatore  {
+	private int id;
 	private String nome="";
 	private int punti=0; // numeri di coppie
 	
@@ -13,15 +14,12 @@ public class Giocatore  {
 		
 	}
 	
-	public Giocatore(String nome, int punti) {
+	public Giocatore(int id, String nome, int punti) {
+		this.id=id;
 		this.nome=nome;
 		this.punti=punti;
 	}
 
-	public Giocatore(String nome) {
-		this(nome, 0);
-	}
-	
 	public String getNome() {
 		return nome;
 	}
@@ -35,12 +33,20 @@ public class Giocatore  {
 		this.punti = punti;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Giocatore [nome=").append(nome).append(", punti=").append(punti).append("]");
+		builder.append("Giocatore [id=").append(id).append(", nome=").append(nome).append(", punti=").append(punti)
+				.append("]");
 		return builder.toString();
 	}
-	
 	
 }

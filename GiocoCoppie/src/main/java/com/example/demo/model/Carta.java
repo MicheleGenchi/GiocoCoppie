@@ -1,13 +1,15 @@
 package com.example.demo.model;
 
 public class Carta  {
+	private int id;
 	private int val;
 	private Seme seme;
 	
 	public Carta() {
 	}
 	
-	public Carta(int val, Seme seme) {
+	public Carta(int id, int val, Seme seme) {
+		this.id=id;
 		this.val=val;
 		this.seme=seme;
 	}
@@ -28,10 +30,20 @@ public class Carta  {
 		this.seme = seme;
 	}
 
+
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Carta [val=").append(val).append(", seme=").append(seme).append("]");
+		builder.append("Carta [id=").append(id).append(", val=").append(val).append(", seme=").append(seme).append("]");
 		return builder.toString();
 	}
 	

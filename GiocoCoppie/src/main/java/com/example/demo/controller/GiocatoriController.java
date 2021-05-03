@@ -21,9 +21,9 @@ public class GiocatoriController {
 	Giocatori giocatori;
 	private static Logger LOGGER = LoggerFactory.getLogger(GiocatoriController.class);
 	
-	@GetMapping("aggiungi/{nome}")
-	public ResponseEntity<String> aggiungiGiocatore(@PathVariable(value = "nome") String nome) {
-		Giocatore giocatore=new Giocatore(nome);
+	@GetMapping("aggiungi/{id}/{nome}")
+	public ResponseEntity<String> aggiungiGiocatore(@PathVariable(value = "id") int id, @PathVariable(value = "nome") String nome) {
+		Giocatore giocatore=new Giocatore(id,nome,0);
 		if (giocatori.getLista().add(giocatore))
 			return new ResponseEntity<>("Giocatore "+nome+" aggiunto!", HttpStatus.OK);
 		return new ResponseEntity<>("Giocatore "+nome+" non aggiunto!", HttpStatus.BAD_REQUEST);
