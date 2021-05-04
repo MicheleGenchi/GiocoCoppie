@@ -1,13 +1,14 @@
 package com.example.demo.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Component
-public class Napoletane implements CarteManager {
+@SessionScope
+public class Napoletane  {
 	private List<Carta> carte;
 	
 	public Napoletane() {
@@ -15,15 +16,6 @@ public class Napoletane implements CarteManager {
 		for (int s=1; s<=4; s++) 
 			for (int v=1; v<=10; v++) 
 				carte.add(new Carta(((s-1)*10+v)-1, v, Seme.get(s)));
-	}
-	
-	@Override
-	public Boolean mescola() {
-		Collections.shuffle(carte);
-		for (int i=0; i<40; i++) {
-			carte.get(i).setId(i);
-		}
-		return true;
 	}
 	
 	public Carta trovaCarta(int idx) {

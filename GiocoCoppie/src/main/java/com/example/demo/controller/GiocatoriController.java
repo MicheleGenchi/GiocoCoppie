@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.example.demo.model.Giocatore;
 import com.example.demo.model.Giocatori;
 
 @RestController
-@RequestScope
+@SessionScope
 @RequestMapping(value="giocatore")
 public class GiocatoriController {
 	

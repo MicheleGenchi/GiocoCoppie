@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,19 +11,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.example.demo.model.Carta;
 import com.example.demo.model.Napoletane;
 
 @RestController
-@RequestScope
+@SessionScope
 @RequestMapping("mazzo")
 public class CarteController {
 	
 	@Autowired
 	Napoletane napoletane;
 	private static Logger LOGGER = LoggerFactory.getLogger(GiocatoriController.class);
+	
+	private Boolean mescola() {
+		Collections.shuffle(napoletane.getCarte());
+		for (int i=0; i<40; i++) {
+			napoletane.getCarte().get(i).setId(i);
+		}
+		return true;
+	}
 	
 	@RequestMapping(value = "carteATerra")
 	public ResponseEntity<List<Carta>> carteATerra() {
@@ -40,7 +49,7 @@ public class CarteController {
 	
 	@RequestMapping(value = "mescolaCarte")
 	public ResponseEntity<Boolean> mescolaCarte() {
-		boolean mescolate=napoletane.mescola();
+		boolean mescolate=mescola();
 		if (mescolate)
 			return new ResponseEntity<>(mescolate, HttpStatus.OK);
 		return new ResponseEntity<>(mescolate, HttpStatus.BAD_REQUEST);
