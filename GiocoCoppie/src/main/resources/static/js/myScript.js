@@ -152,16 +152,17 @@ function selezioneCarta(carta) {
 
 function le_due_carte_sono_uguali() {
 	carteATerra=carteATerra-2;
-	$.when(eliminaCarta(primaCarta)).done(
-			$.when(eliminaCarta(secondaCarta)).done())
+	$.when((eliminaCarta(primaCarta).done()) & $.when(eliminaCarta(secondaCarta)).done())
 	.then(function() {
-				$("#puntiGiocatore").disabled=false;
-				$("#puntiGiocatore").val(punti);
-				$("#puntiGiocatore").disabled=true;
-				$.get("giocatore/aggiornaPunteggio/"+giocatore, function (dati, status) {
-					console.log("Giocatore "+giocatore+(dati==true?"  Punteggio aggiornato!":"  Punteggio invariato"));
-					aggiornaCampiGiocatore();
-				});
+		$(".carte#"+parseInt(primaCarta)).remove();
+		$(".carte#"+parseInt(secondaCarta)).remove();
+		$("#puntiGiocatore").disabled=false;
+		$("#puntiGiocatore").val(punti);
+		$("#puntiGiocatore").disabled=true;
+		$.get("giocatore/aggiornaPunteggio/"+giocatore, function (dati, status) {
+			console.log("Giocatore "+giocatore+(dati==true?"  Punteggio aggiornato!":"  Punteggio invariato"));
+			aggiornaCampiGiocatore();
+		})
 	});
 }
 
@@ -187,11 +188,12 @@ function gioca() {
 											return deferred.resolve("Partita finita!");
 									};break;
 								case false :
-									var wait=confirm("Mi spiace! Le due carte sono diverse...");
-									if (wait) {
+									var wait=null;
+									wait=confirm("Mi spiace! Le due carte sono diverse...");
+									if (wait==true) {
 										copriCarta(primaCarta);
 										copriCarta(secondaCarta);
-										giocatoreSuccessivo();
+										giocatoreSuccessivo();	
 									};break;
 							}
 						} else {
@@ -238,7 +240,6 @@ function eliminaCarta(idxCarta) {
 		console.log("carta da eliminare è con id "+idxCarta);
 		switch (status) {
 			case "success" : 
-				$(".carte#"+parseInt(idxCarta)).remove();
 				return deferred.resolve(cartaEliminata);
 			case "error" : 
 				return deferred.reject(cartaEliminata);

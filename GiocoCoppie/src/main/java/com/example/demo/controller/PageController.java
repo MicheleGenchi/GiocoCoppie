@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.model.Giocatore;
 import com.example.demo.model.Giocatori;
 import com.example.demo.model.Intestazione;
 
 @Controller
+@RequestScope
 public class PageController {
 	
 	@Autowired 
@@ -36,7 +36,7 @@ public class PageController {
 		return new ModelAndView("home", myMap);
 	}
 	
-	@GetMapping("/vittoria")
+	@GetMapping("vittoria")
 	public ModelAndView vittoria(@ModelAttribute String messaggio) {
 		Map<String, Object> myMap=new HashMap<>();
 		myMap.put("dataCorrente", intestazione.getDataCorrente());
