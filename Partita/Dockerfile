@@ -20,11 +20,17 @@ FROM eclipse-temurin:8-jre AS runtime
 # Aggiornamento e installazione utility minime per healthcheck/troubleshooting
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends curl wget && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* \
+    locales && \
+    locale-gen it_IT.UTF-8 && \
+    update-locale LANG=it_IT.UTF-8
 
 ENV APP_HOME=/app
 ARG JAVA_OPTS
 ENV JAVA_TOOL_OPTIONS=${JAVA_OPTS}
+ENV LANG=it_IT.UTF-8
+ENV LANGUAGE=it_IT:it
+ENV LC_ALL=it_IT.UTF-8
 
 # Configurazione utente non-root per la sicurezza
 RUN groupadd -r appgroup && useradd -r -g appgroup -d $APP_HOME appuser

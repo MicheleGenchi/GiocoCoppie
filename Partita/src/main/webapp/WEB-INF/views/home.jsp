@@ -17,10 +17,11 @@
 					src="resources/img/coppia.jpg" alt="risorsa non trovata" />
 			</div>
 			<div class="col-sm-6">
-				<h7>Gioco coppie</h7>
+				<h6><b>Gioco Coppie</b></h6>
 				<p>
-					data : ${dataCorrente}</br> programmatore : ${mioNome}</br> Lingua :
-					${lingua}
+					data          : ${dataCorrente}</br>
+					programmatore : ${mioNome}</br> 
+					Lingua        :	${lingua}				
 				</p>
 			</div>
 		</div>

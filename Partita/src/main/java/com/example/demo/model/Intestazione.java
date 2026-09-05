@@ -15,8 +15,11 @@ public class Intestazione implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String nome = "Michele";
 	private String cognome = "Genchi";
-	private String dataCorrente = new SimpleDateFormat("EEEE dd-MMM-yyyy").format(new Date());
-	private String lingua = Locale.getDefault().getDisplayLanguage();
+	// Specifica Locale.ITALY per avere "italiano" anziché la lingua del server
+	private String lingua = Locale.ITALY.getDisplayLanguage(Locale.ITALY);
+	
+	// Specifica Locale.ITALY nel SimpleDateFormat per avere il giorno e il mese in italiano
+	private String dataCorrente = new SimpleDateFormat("EEEE dd-MMM-yyyy", Locale.ITALY).format(new Date());
 
 	public String getNome() {
 		return nome;
