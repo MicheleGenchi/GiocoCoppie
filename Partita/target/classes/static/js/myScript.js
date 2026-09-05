@@ -10,7 +10,7 @@ var giocatore = 0;
 var bloccoClic = false;   // Evita che l'utente clicchi altre carte durante le animazioni/attese
 
 async function mescola() {
-    return $.get("mazzo/mescolaCarte")
+    return $.post("mazzo/mescolaCarte")
         .then(mescolate => {
             return "Carte mescolate: " + mescolate;
         })
@@ -33,7 +33,7 @@ async function preparaTavolo() {
             let idCarta = ((riga - 1) * 10 + col) - 1;
             $("#riga" + riga).append(
                 "<img class='carte' id='" + idCarta + 
-                "' src='resources/img/retro-carta.jpg' alt='coperta' Height='88' width='60' />"
+                "' src='resources/img/retro-carta.jpg' alt='coperta' Height='108' width='80' />"
             );
         }
     }
@@ -122,8 +122,15 @@ function inserimento_giocatori() {
 
 async function giraCarta(carta) {
 	var idImage = parseInt(carta.attr("id"));
-	var url = "mazzo/urlCarta/" + idImage;
+	var stato=carta.attr("alt");
 
+	if (stato=="rimossa") 
+	{
+		console.log("La carta è stata rimossa");
+		return false;
+	}
+
+	var url = "mazzo/urlCarta/" + idImage;
 	try {
 		var urlImmagine = await $.get(url);
 		carta.attr("alt", "girata");
@@ -146,21 +153,42 @@ function attivaListenerCarte() {
             return;
         }
 
+		// Impedisce il clic sulla stessa identica carta già selezionata come prima
+        if (primaCarta && cartaCliccata.attr("id") === primaCarta.attr("id")) {
+            return;
+        }
+
+		// Blocca immediatamente i clic successivi per proteggere l'animazione
+        bloccoClic = true;
+
         if (!primaCarta) {
             // Primo clic
-            primaCarta = cartaCliccata;
-            bloccoClic = true; // Blocca momentaneamente durante l'animazione di rotazione
-            await giraCarta(primaCarta);
-            bloccoClic = false;
-        } else if (!secondaCarta && cartaCliccata.attr("id") !== primaCarta.attr("id")) {
+
+			girata=await giraCarta(cartaCliccata);
+
+			if (girata) {
+				primaCarta = cartaCliccata
+				console.log("primaCarta "+girata?"girata con successo":"non girata");
+			}
+
+			bloccoClic = false;
+
+        } else {
             // Secondo clic (su una carta diversa dalla prima)
-            secondaCarta = cartaCliccata;
-            bloccoClic = true;
-            await giraCarta(secondaCarta);
-            
-            // Avvia la logica di confronto del turno
-            gestisciTurno();
-        }
+            var girata = await giraCarta(cartaCliccata);
+			
+			if (girata) {
+                secondaCarta = cartaCliccata;
+                console.log("Seconda carta "+girata?"girata con successo":"non girata");
+                
+                // Lascia bloccoClic = true così l'utente non può cliccare altre carte 
+                // mentre gestisciTurno controlla il match ed esegue le animazioni
+                gestisciTurno();
+            } else {
+                // Se il giramento fallisce, sblocca il gioco per permettere un altro tentativo
+                bloccoClic = false;
+            }
+		}
     });
 }
 
@@ -201,8 +229,12 @@ function le_due_carte_sono_uguali(id1, id2) {
 	carteATerra = carteATerra - 2;
 	$.when(eliminaCarta(id1), eliminaCarta(id2))
 		.done(function () {
-			$(".carte#" + id1).remove();
-			$(".carte#" + id2).remove();
+			//$(".carte#" + id1).remove();
+			//$(".carte#" + id2).remove();
+			$(".carte#" + id1).attr("alt", "rimossa");
+			$(".carte#" + id1).attr("src", "");
+			$(".carte#" + id2).attr("alt", "rimossa");
+			$(".carte#" + id2).attr("src", "");
 			
             $("#puntiGiocatore").prop("disabled", false).val(punti).prop("disabled", true);
             
