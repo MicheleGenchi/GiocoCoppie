@@ -1,0 +1,44 @@
+services:
+
+# DB 
+  jvdb_generic:
+    image: mysql:8.0.32
+    env_file:
+      - ./db/.env.db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    container_name:  jvdb_generic
+    ports:
+      - 33960:3306
+
+  jvphpmyadmin-generic:
+    container_name: jvphpmyadmin-generic
+    depends_on:
+      - jvdb_generic
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - ./db/.env.db
+    ports:
+      - 8990:80
+    environment:
+       PMA_HOST: jvdb_generic
+
+# microservice GiocoCoppie
+  partita:
+    container_name: partita
+    build:
+      context: .
+      dockerfile: Partita/Dockerfile
+    env_file: 
+      ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Partita/src:/src # cartella progetto
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7001:8080
+      - 5006:5005
