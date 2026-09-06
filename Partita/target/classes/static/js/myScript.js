@@ -232,9 +232,9 @@ function le_due_carte_sono_uguali(id1, id2) {
 			//$(".carte#" + id1).remove();
 			//$(".carte#" + id2).remove();
 			$(".carte#" + id1).attr("alt", "rimossa");
-			$(".carte#" + id1).attr("src", "");
+			$(".carte#" + id1).attr("src", "resources/img/retro-carta-rimossa.jpg");
 			$(".carte#" + id2).attr("alt", "rimossa");
-			$(".carte#" + id2).attr("src", "");
+			$(".carte#" + id2).attr("src", "resources/img/retro-carta-rimossa.jpg");
 			
             $("#puntiGiocatore").prop("disabled", false).val(punti).prop("disabled", true);
             
