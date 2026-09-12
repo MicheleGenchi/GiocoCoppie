@@ -1,0 +1,6 @@
+{
+    "editor.semanticTokenColorCustomizations": {},
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "never"
+    }
+}

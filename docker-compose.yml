@@ -1,0 +1,104 @@
+services:
+
+# # DB 
+#   jvdb_generic:
+#     image: mysql:8.0.32
+#     env_file:
+#       - ./db/.env.db
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=root
+#     container_name:  jvdb_generic
+#     ports:
+#       - 33960:3306
+
+#   jvphpmyadmin-generic:
+#     container_name: jvphpmyadmin-generic
+#     depends_on:
+#       - jvdb_generic
+#     image: phpmyadmin/phpmyadmin
+#     env_file:
+#       - ./db/.env.db
+#     ports:
+#       - 8990:80
+#     environment:
+#        PMA_HOST: jvdb_generic
+
+# microservice Partita
+  partita:
+    container_name: partita
+    build:
+      context: .
+      dockerfile: Partita/Dockerfile
+    env_file: 
+      ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Partita/src:/src # cartella progetto
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7001:8080
+      - 5001:5005
+
+# microservice Giocatore
+  giocatore:
+    container_name: giocatore
+    build:
+      context: .
+      dockerfile: Giocatore/Dockerfile
+    env_file:
+      ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Giocatore/src:/src # cartella progetto
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7002:8080
+      - 5002:5005
+
+# microservice Carte
+  carte:
+    container_name: carte
+    build:
+      context: .
+      dockerfile: Carte/Dockerfile
+    env_file:
+      ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Carte/src:/src # cartella progetto
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7003:8080
+      - 5003:5005
+
+# microservice Intestazione
+  intestazione:
+    container_name: intestazione
+    build:
+      context: .
+      dockerfile: Intestazione/Dockerfile
+    env_file:
+      ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Intestazione/src:/src # cartella progetto
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7004:8080
+      - 5004:5005

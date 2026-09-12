@@ -1,0 +1,6 @@
+{
+  "label": "Containers: Shell: db_generic",
+  "type" : "shell",
+  "command": "docker exec -it db_generic sh", 
+  "problemMatcher": []
+}
