@@ -1,0 +1,12 @@
+com\example\demo\model\Seme.class
+com\example\demo\model\Intestazione.class
+com\example\demo\model\Carta.class
+com\example\demo\controller\GiocatoriController.class
+com\example\demo\ServletInitializer.class
+com\example\demo\GiocoCoppieApplication.class
+com\example\demo\controller\PageController.class
+com\example\demo\model\Seme$1.class
+com\example\demo\model\Giocatore.class
+com\example\demo\model\Napoletane.class
+com\example\demo\model\Giocatori.class
+com\example\demo\controller\CarteController.class

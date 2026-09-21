@@ -1,0 +1,364 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: GiocoCoppie
+meta:
+  id: wrk_e28ed4a4d9ca4a11bf2bd6e8baf6269d
+  created: 1788461868064
+  modified: 1788461868064
+  description: ""
+collection:
+  - name: Carte
+    meta:
+      id: fld_7a97802b91fd49db9bb33d07caf7cccb
+      created: 1788634858205
+      modified: 1788811466793
+      sortKey: -1788634858205
+      description: ""
+    children:
+      - url: localhost:7003/mazzo/mescolaCarte
+        name: mescolaCarte
+        meta:
+          id: req_9ad9b5a8784a4b708ec0de38e67a63e1
+          created: 1788461890425
+          modified: 1788856391084
+          isPrivate: false
+          description: ""
+          sortKey: -1788634866633
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:7003/mazzo/cz
+        name: carteATerra
+        meta:
+          id: req_8a98fdae4f284296ac82de8d8bff3bb7
+          created: 1788634896877
+          modified: 1789115438672
+          isPrivate: false
+          description: ""
+          sortKey: -1788531156730.5
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:7003/mazzo/quanteCarteATerra
+        name: quanteCarteATerra
+        meta:
+          id: req_7efab04055e345ed8e61728f2e5103d2
+          created: 1788634979920
+          modified: 1788811627949
+          isPrivate: false
+          description: ""
+          sortKey: -1788479301779.25
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:7003/mazzo/carta
+        name: carta
+        meta:
+          id: req_7179085208b34896883b953c643f6210
+          created: 1788635070094
+          modified: 1788883594047
+          isPrivate: false
+          description: ""
+          sortKey: -1788453374303.625
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id":32
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:7003/carta/download
+        name: carta-immagine
+        meta:
+          id: req_5f14399428cd4c7b9a7f12a7eab72837
+          created: 1788635255453
+          modified: 1788937703066
+          isPrivate: false
+          description: ""
+          sortKey: -1788440410565.8125
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {			       
+            "urlImage":"http://host.docker.internal:7003/resources/img/Carte_Napoletane/Spade/1.jpg"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:7003/mazzo/confrontoCarte/3/13
+        name: confrontoCarte
+        meta:
+          id: req_9db94c4835b844cea8388c98466332eb
+          created: 1788635367476
+          modified: 1789034112792
+          isPrivate: false
+          description: ""
+          sortKey: -1788433928696.9062
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:7001/mazzo/eliminaCarta
+        name: elimina
+        meta:
+          id: req_18f11e82abf84bf094d7de27536563ea
+          created: 1788812901240
+          modified: 1788812952118
+          isPrivate: false
+          description: ""
+          sortKey: -1788430687762.4531
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"carta1":2,
+            	"carta2":4
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:7003/resources/img/Carte_Napoletane/Spade/1.jpg
+        name: Immagine da resources
+        meta:
+          id: req_0655cce513be4ea2a6ec8fcd4c465f1d
+          created: 1788857049548
+          modified: 1788857085976
+          isPrivate: false
+          description: ""
+          sortKey: -1788857049548
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Giocatori
+    meta:
+      id: fld_9d6e34e0d91a43f9a67500f68310e1bf
+      created: 1788635574084
+      modified: 1788811477029
+      sortKey: -1788635574084
+      description: ""
+    children:
+      - url: http://localhost:7002/giocatore/cerca
+        name: cerca
+        meta:
+          id: req_846f5cd498f842cb99c291fcbcb3bdbd
+          created: 1788635606480
+          modified: 1789049743336
+          isPrivate: false
+          description: ""
+          sortKey: -1788635606480
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:7002/giocatore/aggiungi
+        name: aggiungi
+        meta:
+          id: req_e56c62cc037645b58aa5e1b934ce4acc
+          created: 1788635617710
+          modified: 1789054317110
+          isPrivate: false
+          description: ""
+          sortKey: -1788635617710
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id":0,
+            	"nome":"Paolo",
+            	"punti":0
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:7002/giocatore/lista
+        name: lista
+        meta:
+          id: req_bfb2948803324de6a6a94e3e4f7e5efa
+          created: 1788636211071
+          modified: 1789055149503
+          isPrivate: false
+          description: ""
+          sortKey: -1788635236556.5
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:7002/giocatore/aggiornaPunteggio
+        name: Aggiorna Punteggio
+        meta:
+          id: req_96b2722d3e35498faa550f7875919dc2
+          created: 1788799949947
+          modified: 1789065345851
+          isPrivate: false
+          description: ""
+          sortKey: -1788799949947
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id":0
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:7002/giocatore/azzeraLista
+        name: Svuota Lista Giocatori
+        meta:
+          id: req_30f4714224df48dc83f1801591de81d5
+          created: 1788800039651
+          modified: 1789140420814
+          isPrivate: false
+          description: ""
+          sortKey: -1788800039651
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Intestazione
+    meta:
+      id: fld_6fb0e03b943b4c648591d5d858e52b7f
+      created: 1788808901100
+      modified: 1788808901100
+      sortKey: -1788808901100
+      description: ""
+    children:
+      - url: http://localhost:7004/intestazione/get
+        name: Get
+        meta:
+          id: req_8a08683a2d6b471ab941825709db6f08
+          created: 1788808912497
+          modified: 1788808966555
+          isPrivate: false
+          description: ""
+          sortKey: -1788808912497
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_e2fc94495bd222d1fdbb5477ca4b52f641456758
+    created: 1788461868091
+    modified: 1789140680578
+  cookies:
+    - id: 3eaf57a4-013d-4103-bfe6-4a4c886b23d7
+      key: JSESSIONID
+      value: 78A1B11577D0DA2668241BB1386A0A39
+      domain: localhost
+      path: /
+      secure: false
+      httpOnly: true
+      hostOnly: true
+environments:
+  name: Base Environment
+  meta:
+    id: env_e2fc94495bd222d1fdbb5477ca4b52f641456758
+    created: 1788461868075
+    modified: 1788461868075
+    isPrivate: false

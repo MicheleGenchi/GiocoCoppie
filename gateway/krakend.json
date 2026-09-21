@@ -1,0 +1,194 @@
+{
+  "$schema": "https://krakend.io",
+  "version": 3,
+  "port": 8080,
+  "timeout": "3s",
+  "cache_ttl": "0s",
+  "name": "API Gateway Gioco Carte",
+  "endpoints": [
+    {
+      "endpoint": "/giococoppie/ip/{proxy}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/{proxy}",
+          "method": "GET",
+          "host": [
+            "http://partita:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/partita",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/",
+          "method": "GET",
+          "host": [
+            "http://partita:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/partita/{page}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/{page}",
+          "method": "GET",
+          "host": [
+            "http://partita:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/giocatore/{proxy}",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/{proxy}",
+          "method": "POST",
+          "host": [
+            "http://giocatore:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/carte/carteATerra",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/carteATerra",
+          "host": [
+            "http://carte:8080"
+          ],
+          "is_collection": true,
+          "mapping": {
+            "collection": "carte"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/carte/{proxy}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/{proxy}",
+          "method": "GET",
+          "host": [
+            "http://carte:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/carte/mescolaCarte",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/mescolaCarte",
+          "method": "POST",
+          "host": [
+            "http://carte:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/intestazione/{proxy}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/{proxy}",
+          "method": "GET",
+          "host": [
+            "http://intestazione:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/partita/resources/{tipo}/{file}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/resources/{tipo}/{file}",
+          "method": "GET",
+          "host": [
+            "http://partita:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/giocatore/resources/{tipo}/{file}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/resources/{tipo}/{file}",
+          "method": "GET",
+          "host": [
+            "http://giocatore:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/carte/resources/{tipo}/{file}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/resources/{tipo}/{file}",
+          "method": "GET",
+          "host": [
+            "http://carte:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/carte/resources/img/Carte_Napoletane/{seme}/{file}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/resources/img/Carte_Napoletane/{seme}/{file}",
+          "method": "GET",
+          "host": [
+            "http://carte:8080"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/giococoppie/intestazione/resources/{tipo}/{file}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "backend": [
+        {
+          "url_pattern": "/resources/{tipo}/{file}",
+          "method": "GET",
+          "host": [
+            "http://intestazione:8080"
+          ]
+        }
+      ]
+    }
+  ]
+}

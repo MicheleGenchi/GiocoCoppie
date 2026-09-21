@@ -1,0 +1,102 @@
+services:
+  # Gestisce tutte le chiamate da remoto
+  gateway:
+    image: krakend:2.9
+    container_name: api_gateway
+    volumes:
+      - ./gateway:/etc/krakend
+    ports:
+      - 7100:8080 # Espone il gateway sulla porta 7100 della tua macchina
+    command: ["run", "-c", "/etc/krakend/krakend.json"]
+    depends_on:
+      - partita
+      - giocatore
+      - carte
+      - intestazione
+
+  # microservice Partita
+  partita:
+    container_name: partita
+    build:
+      context: .
+      dockerfile: Partita/Dockerfile
+    env_file: 
+      - ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Partita/src:/src
+      - resources:/src/main/resources/static
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7001:8080  # Porta HTTP per chiamate dirette / Gateway esterno
+      - 5001:5005  # Porta per il Debug Remoto
+
+  # microservice Giocatore
+  giocatore:
+    container_name: giocatore
+    build:
+      context: .
+      dockerfile: Giocatore/Dockerfile
+    env_file:
+      - ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Giocatore/src:/src
+      - resources:/src/main/resources/static
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7002:8080  # Porta HTTP per chiamate dirette / Gateway esterno
+      - 5002:5005  # Porta per il Debug Remoto
+
+  # microservice Carte
+  carte:
+    container_name: carte
+    build:
+      context: .
+      dockerfile: Carte/Dockerfile
+    env_file:
+      - ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Carte/src:/src
+      - resources:/src/main/resources/static
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7003:8080  # Porta HTTP per chiamate dirette / Gateway esterno
+      - 5003:5005  # Porta per il Debug Remoto
+
+  # microservice Intestazione
+  intestazione:
+    container_name: intestazione
+    build:
+      context: .
+      dockerfile: Intestazione/Dockerfile
+    env_file:
+      - ./db/.env.db
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    volumes:
+      - ./Intestazione/src:/src
+      - resources:/src/main/resources/static
+    stdin_open: true
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 7004:8080  # Porta HTTP per chiamate dirette / Gateway esterno
+      - 5004:5005  # Porta per il Debug Remoto
+
+volumes:
+  resources:
