@@ -15,16 +15,16 @@ collection:
       sortKey: -1788634858205
       description: ""
     children:
-      - url: localhost:7003/mazzo/mescolaCarte
+      - url: http://localhost:7100/giococoppie/carte/mescolaCarte
         name: mescolaCarte
         meta:
           id: req_9ad9b5a8784a4b708ec0de38e67a63e1
           created: 1788461890425
-          modified: 1788856391084
+          modified: 1789676484511
           isPrivate: false
           description: ""
           sortKey: -1788634866633
-        method: GET
+        method: POST
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -33,12 +33,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: localhost:7003/mazzo/cz
+      - url: localhost:7100/giococoppie/carte/carteATerra
         name: carteATerra
         meta:
           id: req_8a98fdae4f284296ac82de8d8bff3bb7
           created: 1788634896877
-          modified: 1789115438672
+          modified: 1789676290257
           isPrivate: false
           description: ""
           sortKey: -1788531156730.5
@@ -51,12 +51,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: localhost:7003/mazzo/quanteCarteATerra
+      - url: localhost:7100/giococoppie/carte/quanteCarteATerra
         name: quanteCarteATerra
         meta:
           id: req_7efab04055e345ed8e61728f2e5103d2
           created: 1788634979920
-          modified: 1788811627949
+          modified: 1789668570542
           isPrivate: false
           description: ""
           sortKey: -1788479301779.25
@@ -69,12 +69,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: localhost:7003/mazzo/carta
+      - url: localhost:7100/giococoppie/carte/mescolaCarte/carta
         name: carta
         meta:
           id: req_7179085208b34896883b953c643f6210
           created: 1788635070094
-          modified: 1788883594047
+          modified: 1789668599609
           isPrivate: false
           description: ""
           sortKey: -1788453374303.625
@@ -96,12 +96,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: localhost:7003/carta/download
+      - url: localhost:7100/giococoppie/carte/download
         name: carta-immagine
         meta:
           id: req_5f14399428cd4c7b9a7f12a7eab72837
           created: 1788635255453
-          modified: 1788937703066
+          modified: 1789668627818
           isPrivate: false
           description: ""
           sortKey: -1788440410565.8125
@@ -200,7 +200,7 @@ collection:
         meta:
           id: req_846f5cd498f842cb99c291fcbcb3bdbd
           created: 1788635606480
-          modified: 1789049743336
+          modified: 1789299714398
           isPrivate: false
           description: ""
           sortKey: -1788635606480
@@ -227,7 +227,7 @@ collection:
         meta:
           id: req_e56c62cc037645b58aa5e1b934ce4acc
           created: 1788635617710
-          modified: 1789054317110
+          modified: 1789162243330
           isPrivate: false
           description: ""
           sortKey: -1788635617710
@@ -236,7 +236,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"id":0,
+            	"id":2,
             	"nome":"Paolo",
             	"punti":0
             }
@@ -301,7 +301,7 @@ collection:
         meta:
           id: req_30f4714224df48dc83f1801591de81d5
           created: 1788800039651
-          modified: 1789140420814
+          modified: 1789165553233
           isPrivate: false
           description: ""
           sortKey: -1788800039651
@@ -322,12 +322,12 @@ collection:
       sortKey: -1788808901100
       description: ""
     children:
-      - url: http://localhost:7004/intestazione/get
+      - url: http://localhost:7100/giococoppie/intestazione/get
         name: Get
         meta:
           id: req_8a08683a2d6b471ab941825709db6f08
           created: 1788808912497
-          modified: 1788808966555
+          modified: 1789668283016
           isPrivate: false
           description: ""
           sortKey: -1788808912497
@@ -345,11 +345,11 @@ cookieJar:
   meta:
     id: jar_e2fc94495bd222d1fdbb5477ca4b52f641456758
     created: 1788461868091
-    modified: 1789140680578
+    modified: 1789561793602
   cookies:
-    - id: 3eaf57a4-013d-4103-bfe6-4a4c886b23d7
+    - id: b60cd224-c7e7-424f-bda2-571a94e83c2e
       key: JSESSIONID
-      value: 78A1B11577D0DA2668241BB1386A0A39
+      value: 52A0A675584C40C49C5F183AFEAC3E11
       domain: localhost
       path: /
       secure: false
