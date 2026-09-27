@@ -24,7 +24,7 @@
 			<link rel="stylesheet" href="${urlBootstrapCss}">
 			<link rel="stylesheet" href="${urlCustomCss}">
 			<link rel="stylesheet" href="${urlTabellaCss}">
-			<link rel="stylesheet" href="${urljquiCss}">
+			<link rel="stylesheet" href="${jquiCss}">
 		</head>
 
 		<body>

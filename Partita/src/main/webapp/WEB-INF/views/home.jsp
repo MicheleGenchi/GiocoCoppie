@@ -19,7 +19,7 @@
 			<c:set var="urlVittoriaJs" value="${root}/resources/js/vittoria.js" />
 			<c:set var="urlTabellaCss" value="${root}/resources/css/tabella.css" />
 			<c:set var="urlCustomCss" value="${root}/resources/css/custom.css" />
-			<c:set var="urlCustomCss" value="${root}/resources/css/jquery-ui.css" />
+			<c:set var="urljquiCss" value="${root}/resources/css/jquery-ui.css" />
 			<link rel="icon" type="image/x-icon" href="${urlFavicon}">
 			<link rel="stylesheet" href="${urlBootstrapCss}">
 			<link rel="stylesheet" href="${urlCustomCss}">
