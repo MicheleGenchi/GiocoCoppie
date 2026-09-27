@@ -1,23 +1,30 @@
 body {
-	margin :20px;	
+	margin: 20px;
 }
 
 input {
-	font-size: 22px!important;
-	width:30em;
+	font-size: 22px !important;
+	width: 30em;
 }
 
-pre, p {
+pre,
+p {
 	font-family: 'Courier New', Courier, monospace;
-	font-size: 10px;	
+	font-size: 10px;
 }
 
-div .row {
-  padding-top: 5px;
-  padding-bottom: 5px;
+div.row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	gap: 15px;
+	/* <--- VA INSERITO ESATTAMENTE QUI */
 }
 
-div .col-m {
+div.col-m {
 	padding-left: 15px;
 	padding-right: 15px;
 }
@@ -27,35 +34,130 @@ div .col-m {
 }
 
 .title {
-	font-weight : bold;
-	font-style : normal;
+	font-weight: bold;
+	font-style: normal;
 	font-size: x-large;
 	font-family: sans-serif;
 }
 
 .etichetta {
-	font-weight : bold;
-	font-style : italic;
+	font-weight: bold;
+	font-style: italic;
 	font-size: 26em;
 	margin-right: 10px;
 }
 
 .id {
-	font-weight : bold;
+	font-weight: bold;
 	color: red;
-  	pointer-events:none
+	pointer-events: none
 }
 
 .error {
-	color : maroon;
-	font-weight : bold;
+	color: maroon;
+	font-weight: bold;
 	font-size: medium;
 }
 
 span.label {
-	color : gray;
-	font-family : cursive;
-	font-style : oblique;
-	font-weight : bold;
+	color: gray;
+	font-family: cursive;
+	font-style: oblique;
+	font-weight: bold;
 	font-size: medium;
+}
+
+/* --- STILI RESPONSIVE PER MOBILE (Schermi fino a 767px) --- */
+@media (max-width: 767.98px) {
+
+	/* 1. Correzione Contenitore Intestazione */
+	#area-intestazione .row {
+		display: flex !important;
+		flex-direction: column !important;
+		/* Impila gli elementi verticalmente */
+		align-items: center !important;
+		/* Centra il contenuto nello schermo */
+		text-align: center !important;
+		/* Centra i testi dell'intestazione */
+	}
+
+	/* Forza le sezioni a stare dentro il contenitore principale senza fluttuare all'esterno */
+	#area-intestazione .sinistra,
+	#area-intestazione .destra {
+		width: 100% !important;
+		float: none !important;
+		/* Annulla i float che fanno scivolare l'immagine sotto */
+		display: block !important;
+		margin: 0 0 15px 0 !important;
+		/* Spazio bilanciato tra testo e immagine */
+	}
+
+	/* Mantiene l'immagine proporzionata e confinata nell'area corretta */
+	#area-intestazione .destra img {
+		max-width: 130px !important;
+		height: auto !important;
+		margin: 10px auto 0 auto !important;
+		display: block !important;
+	}
+
+	/* 2. Ottimizzazione Bacheca Messaggi */
+	#bacheca .sinistra {
+		width: 100% !important;
+		float: none !important;
+	}
+
+	#bacheca dl.row {
+		display: block !important;
+		text-align: center !important;
+		padding: 15px !important;
+		background-color: #e2f0fe;
+		border-radius: .375rem;
+	}
+
+	#bacheca dt {
+		margin-left: 0 !important;
+		/* Rimuove il margine distruttivo di 5em */
+		margin-bottom: 5px !important;
+		display: block !important;
+	}
+
+	#bacheca dd {
+		display: block !important;
+		width: 100% !important;
+		margin-left: 0 !important;
+	}
+
+	/* 3. Pulsante di Gioco "Fat-Finger" */
+	#area-gioco .row {
+		padding: 0 15px;
+	}
+
+	#area-gioco #avvia {
+		width: 100% !important;
+		padding: 15px 0 !important;
+		font-size: 1.25rem !important;
+		font-weight: bold;
+	}
+}
+
+/* --- FIX STRUTTURALE PER DESKTOP (Ripristino Float puliti) --- */
+@media (min-width: 768px) {
+	#area-intestazione .sinistra {
+		width: 66.66667%;
+		float: left;
+	}
+
+	#area-intestazione .destra {
+		width: 33.33333%;
+		float: right;
+		text-align: right;
+	}
+
+	/* Forza il contenitore a calcolare l'altezza corretta includendo gli elementi fluttuanti */
+	#area-intestazione .row::after,
+	#area-intestazione::after {
+		content: "";
+		clear: both;
+		display: table;
+	}
 }

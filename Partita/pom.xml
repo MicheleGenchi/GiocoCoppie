@@ -52,6 +52,13 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
+            <version>1.2</version> <!-- Aggiunta la versione corretta -->
+        </dependency>
+        <!-- ATTENZIONE: Questo è il motore di esecuzione mancante per far funzionare i tag -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
