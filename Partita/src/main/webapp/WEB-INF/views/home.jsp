@@ -16,8 +16,15 @@
 			<c:set var="urlJquery" value="${root}/resources/js/jquery-3.6.0.min.js" />
 			<c:set var="urlBootstrapJs" value="${root}/resources/js/bootstrap.min.js" />
 			<c:set var="urlPartitaJs" value="${root}/resources/js/partita.js" />
+			<c:set var="urlVittoriaJs" value="${root}/resources/js/vittoria.js" />
+			<c:set var="urlTabellaCss" value="${root}/resources/css/tabella.css" />
+			<c:set var="urlCustomCss" value="${root}/resources/css/custom.css" />
+			<c:set var="urlCustomCss" value="${root}/resources/css/jquery-ui.css" />
 			<link rel="icon" type="image/x-icon" href="${urlFavicon}">
 			<link rel="stylesheet" href="${urlBootstrapCss}">
+			<link rel="stylesheet" href="${urlCustomCss}">
+			<link rel="stylesheet" href="${urlTabellaCss}">
+			<link rel="stylesheet" href="${jquiCss}">
 		</head>
 
 		<body>
@@ -66,7 +73,8 @@
 
 			<!-- Bacheca Messaggi -->
 			<div id="bacheca">
-				<dl class="border-top border-bottom border-primary border-1 p-3 opacity-50 row lead alert alert-info" role="alert">
+				<dl class="border-top border-bottom border-primary border-1 p-3 opacity-50 row lead alert alert-info" 
+				role="alert">
 					<dt class="col-sm-3 text-sm-end">Bacheca messaggi :</dt>
 					<dd class="col-sm-9" id="messaggio"></dd>
 				</dl>

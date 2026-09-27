@@ -1,14 +1,14 @@
 // Server IP ricavato dinamicamente dall'URL della pagina corrente
-const BASE = "/"; //`http://${window.location.hostname}:8080`;
-const SERVER_PARTITA = `${BASE}giococoppie/partita`;
-const SERVER_GIOCATORE = `${BASE}giococoppie/giocatore`;
-const SERVER_CARTE=`${BASE}giococoppie/carte`;
-const SERVER_INTESTAZIONE=`${BASE}giococoppie/intestazione`;
+// const BASE = "/"; //`http://${window.location.hostname}:8080`;
+// const SERVER_PARTITA = `${BASE}giococoppie/partita`;
+// const SERVER_GIOCATORE = `${BASE}giococoppie/giocatore`;
+// const SERVER_CARTE=`${BASE}giococoppie/carte`;
+// onst SERVER_INTESTAZIONE=`${BASE}giococoppie/intestazione`;
 
-const bacheca = $("#messaggio");
+// const bacheca = $("#messaggio");
 
 
-let listaGiocatori;
+// let listaGiocatori;
 
 async function caricaModuliGiocatore() {
     try {
@@ -21,7 +21,7 @@ async function caricaModuliGiocatore() {
     }
 }
 
-let crea_intestazione;
+// let crea_intestazione;
 
 async function caricaModuliIntestazione() {
     try {
@@ -82,8 +82,8 @@ $(document).ready(async function () {
     $("#tabella-giocatori").prepend(html);
 
 
-    const havinto=`<center><h3>COMPLIMENTI <span stryle="font-variant: small-caps;" class='id' id='vincitore'>${giocatori[0].nome}</span> HA VINTO </h3></center>`;
-    const avetepareggiato="<center><h3>NON HA VINTO NESSUNO</h3></center>";
+    const havinto=`<h3>COMPLIMENTI <span class="id" id="vincitore">${giocatori[0].nome}</span> HAI VINTO </h3>`;
+    const avetepareggiato="<h3>NON HA VINTO NESSUNO</h3>";
     const vincitore=(parita)?avetepareggiato:havinto;
     bacheca.append(vincitore);
 });

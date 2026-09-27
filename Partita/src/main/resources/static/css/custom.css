@@ -50,7 +50,8 @@ div.col-m {
 .id {
 	font-weight: bold;
 	color: red;
-	pointer-events: none
+	pointer-events: none;
+	font-variant: small-caps;
 }
 
 .error {
